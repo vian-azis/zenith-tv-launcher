@@ -30,13 +30,7 @@ public class GlobalSidebarRootLayout extends FrameLayout {
         if (event != null && event.getAction() == KeyEvent.ACTION_DOWN) {
             int keyCode = event.getKeyCode();
             if (keyCode == KeyEvent.KEYCODE_BACK
-                    || keyCode == KeyEvent.KEYCODE_SETTINGS
-                    || keyCode == 176
-                    || keyCode == KeyEvent.KEYCODE_NOTIFICATION
-                    || keyCode == 83
-                    || keyCode == 227
-                    || keyCode == KeyEvent.KEYCODE_MENU
-                    || keyCode == 82) {
+                    || com.zenith.launcher.ZenithAccessibilityService.isSettingsKey(keyCode)) {
                 GlobalSidebarOverlayManager manager = GlobalSidebarOverlayManager.getInstance(getContext());
                 if (manager != null && manager.isShowing()) {
                     manager.closeSidebar();

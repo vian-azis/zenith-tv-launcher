@@ -146,6 +146,20 @@ public class ZenithAccessibilityService extends AccessibilityService {
         }
     }
 
+    public static boolean isSettingsKey(int keyCode) {
+        return keyCode == 83
+                || keyCode == KeyEvent.KEYCODE_NOTIFICATION
+                || keyCode == KeyEvent.KEYCODE_SETTINGS
+                || keyCode == 176
+                || keyCode == 227
+                || keyCode == KeyEvent.KEYCODE_MENU
+                || keyCode == 82
+                || keyCode == 312
+                || keyCode == 256
+                || keyCode == 257
+                || keyCode == 165;
+    }
+
     @Override
     protected boolean onKeyEvent(KeyEvent event) {
         if (event == null) return false;
@@ -154,14 +168,12 @@ public class ZenithAccessibilityService extends AccessibilityService {
         Log.d(TAG, "onKeyEvent: keyCode=" + keyCode + ", action=" + action);
 
         // Intercept Gear / Quick Settings buttons (Global across all apps)
-        // Key 83: KEYCODE_NOTIFICATION (TCL RC813A Remote Gear/Quick Settings key)
-        if (keyCode == 83
-                || keyCode == KeyEvent.KEYCODE_NOTIFICATION
-                || keyCode == KeyEvent.KEYCODE_SETTINGS
-                || keyCode == 176
-                || keyCode == 227) {
-
+        if (isSettingsKey(keyCode)) {
             if (action == KeyEvent.ACTION_DOWN) {
+                if (MainActivity.isGlobalReorderActive()) {
+                    Log.d(TAG, "Settings key ignored because launcher is in reorder mode");
+                    return true;
+                }
                 long now = System.currentTimeMillis();
                 if (now - mLastSettingsKeyTime > 350) {
                     mLastSettingsKeyTime = now;

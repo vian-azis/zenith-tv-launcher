@@ -94,6 +94,9 @@ public class GlobalSidebarOverlayManager {
         if (sInstance == null) {
             sInstance = new GlobalSidebarOverlayManager(context.getApplicationContext());
         }
+        if (sInstance.mAccessibilityService == null && com.zenith.launcher.ZenithAccessibilityService.getInstance() != null) {
+            sInstance.setAccessibilityService(com.zenith.launcher.ZenithAccessibilityService.getInstance());
+        }
         return sInstance;
     }
 
@@ -393,11 +396,11 @@ public class GlobalSidebarOverlayManager {
                 if (mRootView != null) {
                     mRootView.clearFocus();
                     mRootView.setVisibility(View.GONE);
+                    if (mRootView.getParent() != null && mActiveWindowManager != null) {
+                        mActiveWindowManager.removeViewImmediate(mRootView);
+                    }
                 }
-                if (mIsAttached && mActiveWindowManager != null && mRootView != null) {
-                    mActiveWindowManager.removeView(mRootView);
-                    mIsAttached = false;
-                }
+                mIsAttached = false;
             } catch (Exception ignored) {}
         });
     }
@@ -441,6 +444,15 @@ public class GlobalSidebarOverlayManager {
                         PixelFormat.TRANSLUCENT
                 );
                 params.gravity = Gravity.TOP | Gravity.START;
+
+                if (mRootView.getParent() != null) {
+                    try {
+                        if (mActiveWindowManager != null) {
+                            mActiveWindowManager.removeViewImmediate(mRootView);
+                        }
+                    } catch (Exception ignored) {}
+                    mIsAttached = false;
+                }
 
                 if (!mIsAttached) {
                     mActiveWindowManager.addView(mRootView, params);
@@ -491,13 +503,13 @@ public class GlobalSidebarOverlayManager {
                         .setInterpolator(new AccelerateInterpolator())
                         .withEndAction(() -> {
                             try {
-                                if (mIsAttached && mRootView != null) {
+                                if (mRootView != null) {
                                     mRootView.setVisibility(View.GONE);
-                                    if (mActiveWindowManager != null) {
+                                    if (mRootView.getParent() != null && mActiveWindowManager != null) {
                                         mActiveWindowManager.removeView(mRootView);
                                     }
-                                    mIsAttached = false;
                                 }
+                                mIsAttached = false;
                             } catch (Exception ignored) {}
                         })
                         .start();

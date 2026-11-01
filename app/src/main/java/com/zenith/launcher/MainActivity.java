@@ -234,6 +234,7 @@ ChannelAdapter.OnChannelFocusListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sInstance = this;
+        com.zenith.launcher.receiver.BootReceiver.ensureAccessibilityServiceEnabled(this);
         this.hideSystemUI();
         this.setContentView(R.layout.activity_main);
         this.bindViews();
@@ -1719,7 +1720,7 @@ ChannelAdapter.OnChannelFocusListener {
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         this.resetScreensaverTimer();
-        if (keyCode == 176 || keyCode == 83 || keyCode == 227) {
+        if (ZenithAccessibilityService.isSettingsKey(keyCode)) {
             if (wasDialogRecentlyDismissed() || wasRecentlyReordering()) return true;
             long now = System.currentTimeMillis();
             if (now - this.lastSettingsPressTime > 350L) {
@@ -1744,6 +1745,27 @@ ChannelAdapter.OnChannelFocusListener {
         this.resetScreensaverTimer();
         this.isInitialLaunch = false;
         int keyCode = event.getKeyCode();
+
+        // 1. Dedicated remote Settings key interception
+        if (ZenithAccessibilityService.isSettingsKey(keyCode)) {
+            if (event.getAction() == 0) {
+                if (this.isReorderMode) {
+                    this.stopReorderMode();
+                    return true;
+                }
+                if (wasDialogRecentlyDismissed() || wasRecentlyReordering()) {
+                    return true;
+                }
+                long now = System.currentTimeMillis();
+                if (now - this.lastSettingsPressTime > 350L) {
+                    this.lastSettingsPressTime = now;
+                    Log.d("MainActivity", "Settings key (" + keyCode + ") intercepted! Toggling quick settings");
+                    TvUtils.openQuickSettings((Context)this);
+                }
+            }
+            return true;
+        }
+
         if (this.isReorderMode) {
             if (event.getAction() == 0) {
                 this.handleReorderKey(keyCode);
@@ -1763,14 +1785,6 @@ ChannelAdapter.OnChannelFocusListener {
             }
         }
         if (event.getAction() == 0) {
-            if (keyCode == 176 || keyCode == 176 || keyCode == 83 || keyCode == 83 || keyCode == 227) {
-                long now = System.currentTimeMillis();
-                if (now - this.lastSettingsPressTime > 350L) {
-                    this.lastSettingsPressTime = now;
-                    TvUtils.openQuickSettings((Context)this);
-                }
-                return true;
-            }
             View focused = this.getCurrentFocus();
             if (focused != null) {
                 if (this.isSidebarView(focused) && keyCode == 22) {
@@ -1819,6 +1833,7 @@ ChannelAdapter.OnChannelFocusListener {
     protected void onResume() {
         super.onResume();
         this.isActivityResumed = true;
+        com.zenith.launcher.receiver.BootReceiver.ensureAccessibilityServiceEnabled(this);
         this.hideSystemUI();
         this.resetScreensaverTimer();
         this.restartAutoShuffleTimer();
