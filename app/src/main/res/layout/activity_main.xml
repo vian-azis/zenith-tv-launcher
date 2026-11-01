@@ -436,12 +436,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="6dp"
-                    android:background="@drawable/bg_brand_pill"
-                    android:paddingStart="15dp"
-                    android:paddingTop="5.5dp"
-                    android:paddingEnd="15dp"
-                    android:paddingBottom="5.5dp"
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
 
