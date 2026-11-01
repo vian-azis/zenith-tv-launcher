@@ -161,6 +161,7 @@ ChannelAdapter.OnChannelFocusListener {
     private static MainActivity sInstance;
     public static MainActivity getInstance() { return sInstance; }
     private volatile boolean isActivityResumed = false;
+    private boolean isInitialLaunch = true;
     public static boolean isLauncherResumed() { return sInstance != null && sInstance.isActivityResumed; }
     private static long lastReorderEndTime;
     private boolean isReorderMode = false;
@@ -264,7 +265,11 @@ ChannelAdapter.OnChannelFocusListener {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
             this.hideSystemUI();
-            this.handler.postDelayed(this::ensureFocus, 100L);
+            if (this.isInitialLaunch) {
+                this.focusRow1();
+            } else {
+                this.handler.postDelayed(this::ensureFocus, 100L);
+            }
         }
     }
 
@@ -412,34 +417,45 @@ ChannelAdapter.OnChannelFocusListener {
         this.activeSection = 0;
         this.updateSidebarActiveState();
         if (this.recyclerFavorites != null) {
-            if (this.recyclerFavorites.getChildCount() > 0) {
-                View child = this.recyclerFavorites.getChildAt(0);
-                if (child != null) {
-                    View card = child.findViewById(R.id.card_root);
-                    if (card != null && card.requestFocus()) {
-                        return;
+            this.recyclerFavorites.scrollToPosition(0);
+            if (this.tryFocusFavoriteFirstItem()) {
+                return;
+            }
+            this.recyclerFavorites.post(() -> {
+                if (this.tryFocusFavoriteFirstItem()) return;
+                this.recyclerFavorites.postDelayed(() -> {
+                    if (this.tryFocusFavoriteFirstItem()) return;
+                    this.recyclerFavorites.postDelayed(this::tryFocusFavoriteFirstItem, 150L);
+                }, 80L);
+            });
+        }
+    }
+
+    private boolean tryFocusFavoriteFirstItem() {
+        if (!this.isActivityResumed || this.isFinishing() || this.isDestroyed() || this.recyclerFavorites == null) {
+            return false;
+        }
+        if (this.recyclerFavorites.getChildCount() > 0) {
+            View child = this.recyclerFavorites.getChildAt(0);
+            if (child != null) {
+                View card = child.findViewById(R.id.card_root);
+                if (card != null && card.requestFocus()) {
+                    if (this.mainScrollView != null && this.mainScrollView.getScrollY() != 0) {
+                        this.mainScrollView.scrollTo(0, 0);
                     }
-                    if (child.requestFocus()) {
-                        return;
+                    this.isInitialLaunch = false;
+                    return true;
+                }
+                if (child.requestFocus()) {
+                    if (this.mainScrollView != null && this.mainScrollView.getScrollY() != 0) {
+                        this.mainScrollView.scrollTo(0, 0);
                     }
+                    this.isInitialLaunch = false;
+                    return true;
                 }
             }
-            this.recyclerFavorites.postDelayed(() -> {
-                if (!this.isActivityResumed || this.isFinishing() || this.isDestroyed()) {
-                    return;
-                }
-                if (this.recyclerFavorites != null && this.recyclerFavorites.getChildCount() > 0) {
-                    View child = this.recyclerFavorites.getChildAt(0);
-                    if (child != null) {
-                        View card = child.findViewById(R.id.card_root);
-                        if (card != null && card.requestFocus()) {
-                            return;
-                        }
-                        child.requestFocus();
-                    }
-                }
-            }, 80L);
         }
+        return false;
     }
 
     private void setupSidebar() {
@@ -730,7 +746,7 @@ ChannelAdapter.OnChannelFocusListener {
                 boolean wasRow1 = currentFocus != null && (this.isChildOf(currentFocus, (View)this.recyclerFavorites) || currentFocus == this.containerFavoritesDock || currentFocus == this.btnWatchNow);
                 List<ChannelItem> updatedCards = this.buildMovieCards();
                 this.recyclerRecommended.setAdapter(new ChannelAdapter((Context)this, updatedCards, this));
-                if (wasRow1) {
+                if (wasRow1 || this.isInitialLaunch || this.activeSection == 0) {
                     this.focusRow1();
                 }
             }
@@ -1692,6 +1708,9 @@ ChannelAdapter.OnChannelFocusListener {
         long now;
         super.onNewIntent(intent);
         this.setIntent(intent);
+        if (intent != null && (Intent.ACTION_MAIN.equals(intent.getAction()) || intent.hasCategory(Intent.CATEGORY_HOME))) {
+            this.focusRow1();
+        }
         if (intent != null && "com.zenith.launcher.ACTION_OPEN_SETTINGS_DRAWER".equals(intent.getAction()) && (now = System.currentTimeMillis()) - this.lastSettingsPressTime > 350L) {
             this.lastSettingsPressTime = now;
             TvUtils.openQuickSettings((Context)this);
@@ -1723,6 +1742,7 @@ ChannelAdapter.OnChannelFocusListener {
 
     public boolean dispatchKeyEvent(KeyEvent event) {
         this.resetScreensaverTimer();
+        this.isInitialLaunch = false;
         int keyCode = event.getKeyCode();
         if (this.isReorderMode) {
             if (event.getAction() == 0) {
@@ -1806,7 +1826,11 @@ ChannelAdapter.OnChannelFocusListener {
         this.syncInstalledApps(false);
         this.handler.postDelayed(() -> {
             if (this.isActivityResumed && !this.isReorderMode) {
-                this.focusRow1();
+                if (this.isInitialLaunch || this.activeSection == 0) {
+                    this.focusRow1();
+                } else {
+                    this.ensureFocus();
+                }
             }
         }, 100L);
     }

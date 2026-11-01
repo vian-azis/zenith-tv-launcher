@@ -64,8 +64,7 @@ public class GlobalSidebarOverlayManager {
     private TextView mTextDate;
     private TextView mTextClock;
     private FrameLayout mBtnSettings;
-    private FrameLayout mBtnProfile;
-
+    
     // Integrated Fluid Pill Sliders
     private FluidPillSliderView mSliderBrightness;
     private FluidPillSliderView mSliderWarmth;
@@ -134,8 +133,7 @@ public class GlobalSidebarOverlayManager {
             mTextDate = mRootView.findViewById(R.id.sidebar_text_date);
             mTextClock = mRootView.findViewById(R.id.sidebar_text_clock);
             mBtnSettings = mRootView.findViewById(R.id.sidebar_btn_settings);
-            mBtnProfile = mRootView.findViewById(R.id.sidebar_btn_profile);
-
+            
             mSliderBrightness = mRootView.findViewById(R.id.sidebar_slider_brightness);
             mSliderWarmth = mRootView.findViewById(R.id.sidebar_slider_warmth);
             mSliderVolume = mRootView.findViewById(R.id.sidebar_slider_volume);
@@ -181,7 +179,7 @@ public class GlobalSidebarOverlayManager {
 
     private void setupFocusInversionAndAntiClip() {
         View[] interactiveViews = new View[]{
-                mBtnSettings, mBtnProfile,
+                mBtnSettings,
                 mTileScreensaver, mTileInput, mTileDisplay,
                 mTileSound, mTileWifi, mTileBluetooth
         };
@@ -255,13 +253,7 @@ public class GlobalSidebarOverlayManager {
                 TvUtils.openSettings(mContext);
             });
         }
-        if (mBtnProfile != null) {
-            mBtnProfile.setOnClickListener(v -> {
-                closeSidebarImmediately();
-                TvUtils.openSettings(mContext);
-            });
-        }
-
+        
         // Action Tiles
         if (mTileScreensaver != null) {
             mTileScreensaver.setOnClickListener(v -> {

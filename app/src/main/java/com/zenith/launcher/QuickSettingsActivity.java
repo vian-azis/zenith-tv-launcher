@@ -50,8 +50,7 @@ public class QuickSettingsActivity extends AppCompatActivity {
     private TextView textDate;
     private TextView textClock;
     private FrameLayout btnSettings;
-    private FrameLayout btnProfile;
-    private TextView labelSettings;
+        private TextView labelSettings;
 
     // Tiles
     private LinearLayout tileScreensaver;
@@ -115,8 +114,7 @@ public class QuickSettingsActivity extends AppCompatActivity {
         textDate = findViewById(R.id.qs_text_date);
         textClock = findViewById(R.id.qs_text_clock);
         btnSettings = findViewById(R.id.qs_btn_settings);
-        btnProfile = findViewById(R.id.qs_btn_profile);
-        labelSettings = findViewById(R.id.qs_label_settings);
+                labelSettings = findViewById(R.id.qs_label_settings);
 
         tileScreensaver = findViewById(R.id.qs_tile_screensaver);
         tileInput = findViewById(R.id.qs_tile_input);
@@ -156,7 +154,7 @@ public class QuickSettingsActivity extends AppCompatActivity {
 
     private void setupFocusEffects() {
         View[] interactiveViews = new View[]{
-            btnSettings, btnProfile,
+            btnSettings,
             tileScreensaver, tileInput, tileDisplay,
             tileSound, tileWifi, tileBluetooth, tileAccessibility
         };
@@ -186,18 +184,7 @@ public class QuickSettingsActivity extends AppCompatActivity {
             finish();
         });
 
-        btnProfile.setOnClickListener(v -> {
-            try {
-                Intent intent = new Intent();
-                intent.setClassName("com.android.tv.settings", "com.google.android.tv.settings.AccountActivity");
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            } catch (Exception e) {
-                TvUtils.openSettings(this);
-            }
-            finish();
-        });
-
+        
         // Tile 1: Screensaver
         tileScreensaver.setOnClickListener(v -> {
             TvUtils.startScreensaver(this);

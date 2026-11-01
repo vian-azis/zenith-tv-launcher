@@ -85,7 +85,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:nextFocusDown="@id/sidebar_slider_brightness"
-                        android:nextFocusRight="@id/sidebar_btn_profile"
+                        
                         android:background="@drawable/selector_qs_circle_btn"
                         android:clickable="true"
                         android:focusable="true">
@@ -100,26 +100,7 @@
                             android:tint="@color/selector_spatial_tile_icon" />
                     </FrameLayout>
 
-                    <FrameLayout
-                        android:id="@+id/sidebar_btn_profile"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_marginStart="8dp"
-                        android:nextFocusDown="@id/sidebar_slider_brightness"
-                        android:nextFocusLeft="@id/sidebar_btn_settings"
-                        android:background="@drawable/selector_qs_circle_btn"
-                        android:clickable="true"
-                        android:focusable="true">
-
-                        <ImageView
-                            android:id="@+id/sidebar_icon_profile"
-                            android:layout_width="17dp"
-                            android:layout_height="17dp"
-                            android:layout_gravity="center"
-                            android:duplicateParentState="true"
-                            android:src="@drawable/ic_qs_profile"
-                            android:tint="@color/selector_spatial_tile_icon" />
-                    </FrameLayout>
+                    
                 </LinearLayout>
             </RelativeLayout>
 

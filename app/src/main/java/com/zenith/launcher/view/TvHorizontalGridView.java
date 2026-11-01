@@ -97,7 +97,7 @@ public class TvHorizontalGridView extends RecyclerView {
 
             @Override
             public void onChildViewDetachedFromWindow(@NonNull View view) {
-                if (view.hasFocus() || findFocus() == null) {
+                if (view.hasFocus()) {
                     post(() -> {
                         if (findFocus() == null) {
                             int count = getChildCount();
