@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="520dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_glass"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:elevation="24dp">
+
+    <!-- Search Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_search"
+            android:contentDescription="Search" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="Pencarian Cepat"
+            android:textColor="@color/zenith_text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium" />
+
+        <FrameLayout
+            android:id="@+id/btn_dialog_close"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/selector_icon_btn_bg"
+            android:focusable="true"
+            android:clickable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="✕"
+                android:textColor="@color/zenith_text_secondary"
+                android:textSize="14sp" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Search Input Field -->
+    <EditText
+        android:id="@+id/search_input"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/selector_dialog_btn"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:hint="Cari aplikasi atau film..."
+        android:textColorHint="#66FFFFFF"
+        android:textColor="@color/zenith_text_primary"
+        android:textSize="14sp"
+        android:singleLine="true"
+        android:imeOptions="actionSearch" />
+
+    <!-- Action Buttons Row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btn_search_youtube"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/selector_dialog_btn"
+            android:gravity="center"
+            android:focusable="true"
+            android:clickable="true"
+            android:text="▶ Cari di YouTube"
+            android:textColor="@color/zenith_text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btn_search_voice"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/selector_dialog_btn"
+            android:gravity="center"
+            android:focusable="true"
+            android:clickable="true"
+            android:text="🎤 Pencarian Suara"
+            android:textColor="@color/vian_accent_pink"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>
+

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Zenith TV</string>
+    <string name="apps_dock_title">FAVORIT</string>
+    <string name="recommended_title">UP NEXT &amp; REKOMENDASI</string>
+    <string name="all_apps_title">SEMUA APLIKASI</string>
+    <string name="settings_label">Pengaturan</string>
+    <string name="open_app_hint">Tekan [OK] untuk Membuka</string>
+</resources>
+

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Cinematic Dark Canvas Palette -->
+    <color name="vian_bg_dark">#080A0F</color>
+    <color name="vian_accent_pink">#FF2E63</color>
+    <color name="vian_accent_wine">#5C1D2E</color>
+    <color name="vian_imdb_gold">#F5C518</color>
+    
+    <color name="zenith_bg_dark">#080A0F</color>
+    <color name="zenith_bg_gradient_start">#121622</color>
+    <color name="zenith_bg_gradient_end">#06070A</color>
+    
+    <!-- Focus & Accents -->
+    <color name="zenith_accent_blue">#FF2E63</color>
+    <color name="zenith_focus_halo">#4DFF2E63</color>
+    <color name="zenith_focus_border">#FFFFFF</color>
+    
+    <!-- Glassmorphism & Cards -->
+    <color name="zenith_card_idle">#181B26</color>
+    <color name="zenith_card_focused">#252A3B</color>
+    <color name="zenith_card_border">#2A2E3D</color>
+    <color name="zenith_pill_bg">#40242630</color>
+    <color name="zenith_pill_border">#33FFFFFF</color>
+    
+    <!-- Typography -->
+    <color name="zenith_text_primary">#FFFFFF</color>
+    <color name="zenith_text_secondary">#B0B3B8</color>
+    <color name="zenith_text_muted">#71747E</color>
+    <color name="zenith_badge_bg">#25FFFFFF</color>
+</resources>

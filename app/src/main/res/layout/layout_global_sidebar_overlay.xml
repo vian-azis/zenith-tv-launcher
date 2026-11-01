@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zenith.launcher.view.GlobalSidebarRootLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/global_sidebar_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <View
+        android:id="@+id/global_sidebar_scrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        android:clickable="true"
+        android:focusable="false" />
+
+    <!-- Glass drawer: wraps content, vertically centred, 8dp spacing grid -->
+    <FrameLayout
+        android:id="@+id/global_sidebar_drawer"
+        android:layout_width="372dp"
+        android:layout_height="486dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_spatial_glass_drawer"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        android:elevation="16dp"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Header -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/sidebar_text_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:includeFontPadding="false"
+                        android:letterSpacing="0.02"
+                        android:text="Sab, 31 Okt"
+                        android:textColor="#A1A1AA"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/sidebar_text_clock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:fontFeatureSettings="tnum"
+                        android:includeFontPadding="false"
+                        android:letterSpacing="-0.01"
+                        android:text="20.45"
+                        android:textColor="#FFFFFF"
+                        android:textSize="28sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:id="@+id/sidebar_btn_settings"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:nextFocusDown="@id/sidebar_slider_brightness"
+                        android:nextFocusRight="@id/sidebar_btn_profile"
+                        android:background="@drawable/selector_qs_circle_btn"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:id="@+id/sidebar_icon_gear"
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:layout_gravity="center"
+                            android:duplicateParentState="true"
+                            android:src="@drawable/ic_settings_gear"
+                            android:tint="@color/selector_spatial_tile_icon" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/sidebar_btn_profile"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="8dp"
+                        android:nextFocusDown="@id/sidebar_slider_brightness"
+                        android:nextFocusLeft="@id/sidebar_btn_settings"
+                        android:background="@drawable/selector_qs_circle_btn"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:id="@+id/sidebar_icon_profile"
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:layout_gravity="center"
+                            android:duplicateParentState="true"
+                            android:src="@drawable/ic_qs_profile"
+                            android:tint="@color/selector_spatial_tile_icon" />
+                    </FrameLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!-- Sliders -->
+            <com.zenith.launcher.view.FluidPillSliderView
+                android:id="@+id/sidebar_slider_brightness"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="16dp"
+                android:nextFocusUp="@id/sidebar_btn_settings"
+                android:nextFocusDown="@id/sidebar_slider_warmth" />
+
+            <com.zenith.launcher.view.FluidPillSliderView
+                android:id="@+id/sidebar_slider_warmth"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="10dp"
+                android:nextFocusUp="@id/sidebar_slider_brightness"
+                android:nextFocusDown="@id/sidebar_slider_volume" />
+
+            <com.zenith.launcher.view.FluidPillSliderView
+                android:id="@+id/sidebar_slider_volume"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="10dp"
+                android:nextFocusUp="@id/sidebar_slider_warmth"
+                android:nextFocusDown="@id/sidebar_tile_screensaver" />
+
+            <!-- Quick tiles 2x3 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/sidebar_tile_screensaver"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/selector_spatial_tile_bg"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="10dp"
+                    android:nextFocusUp="@id/sidebar_slider_volume"
+                    android:nextFocusRight="@id/sidebar_tile_input"
+                    android:nextFocusDown="@id/sidebar_tile_display">
+
+                    <ImageView
+                        android:id="@+id/sidebar_icon_screensaver"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:duplicateParentState="true"
+                        android:src="@drawable/ic_qs_screensaver"
+                        android:tint="@color/selector_spatial_tile_icon" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:duplicateParentState="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/sidebar_title_screensaver"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_medium"
+                            android:includeFontPadding="false"
+                            android:letterSpacing="0.01"
+                            android:maxLines="1"
+                            android:text="Screensaver"
+                            android:textColor="@color/selector_spatial_tile_title"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/sidebar_sub_screensaver"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:duplicateParentState="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+                            android:text="Mulai"
+                            android:textColor="@color/selector_spatial_tile_subtitle"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sidebar_tile_input"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/selector_spatial_tile_bg"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="10dp"
+                    android:nextFocusUp="@id/sidebar_slider_volume"
+                    android:nextFocusLeft="@id/sidebar_tile_screensaver"
+                    android:nextFocusDown="@id/sidebar_tile_sound">
+
+                    <ImageView
+                        android:id="@+id/sidebar_icon_input"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:duplicateParentState="true"
+                        android:src="@drawable/ic_hdmi_port"
+                        android:tint="@color/selector_spatial_tile_icon" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:duplicateParentState="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/sidebar_title_input"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_medium"
+                            android:includeFontPadding="false"
+                            android:letterSpacing="0.01"
+                            android:maxLines="1"
+                            android:text="Input TV"
+                            android:textColor="@color/selector_spatial_tile_title"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/sidebar_sub_input"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:duplicateParentState="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+                            android:text="HDMI &amp; TV"
+                            android:textColor="@color/selector_spatial_tile_subtitle"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/sidebar_tile_display"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/selector_spatial_tile_bg"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="10dp"
+                    android:nextFocusUp="@id/sidebar_tile_screensaver"
+                    android:nextFocusRight="@id/sidebar_tile_sound"
+                    android:nextFocusDown="@id/sidebar_tile_wifi">
+
+                    <ImageView
+                        android:id="@+id/sidebar_icon_display"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:duplicateParentState="true"
+                        android:src="@drawable/ic_tv_display"
+                        android:tint="@color/selector_spatial_tile_icon" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:duplicateParentState="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/sidebar_title_display"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_medium"
+                            android:includeFontPadding="false"
+                            android:letterSpacing="0.01"
+                            android:maxLines="1"
+                            android:text="Tampilan"
+                            android:textColor="@color/selector_spatial_tile_title"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/sidebar_sub_display"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:duplicateParentState="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+                            android:text="Kalibrasi"
+                            android:textColor="@color/selector_spatial_tile_subtitle"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sidebar_tile_sound"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/selector_spatial_tile_bg"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="10dp"
+                    android:nextFocusUp="@id/sidebar_tile_input"
+                    android:nextFocusLeft="@id/sidebar_tile_display"
+                    android:nextFocusDown="@id/sidebar_tile_bluetooth">
+
+                    <ImageView
+                        android:id="@+id/sidebar_icon_sound"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:duplicateParentState="true"
+                        android:src="@drawable/ic_qs_sound"
+                        android:tint="@color/selector_spatial_tile_icon" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:duplicateParentState="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/sidebar_title_sound"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_medium"
+                            android:includeFontPadding="false"
+                            android:letterSpacing="0.01"
+                            android:maxLines="1"
+                            android:text="Suara"
+                            android:textColor="@color/selector_spatial_tile_title"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/sidebar_sub_sound"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:duplicateParentState="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+                            android:text="Format &amp; output"
+                            android:textColor="@color/selector_spatial_tile_subtitle"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/sidebar_tile_wifi"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/selector_spatial_tile_bg"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="10dp"
+                    android:nextFocusUp="@id/sidebar_tile_display"
+                    android:nextFocusRight="@id/sidebar_tile_bluetooth"
+                    android:nextFocusDown="@id/sidebar_tile_wifi">
+
+                    <ImageView
+                        android:id="@+id/sidebar_icon_wifi"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:duplicateParentState="true"
+                        android:src="@drawable/ic_qs_wifi"
+                        android:tint="@color/selector_spatial_tile_icon" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:duplicateParentState="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/sidebar_title_wifi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_medium"
+                            android:includeFontPadding="false"
+                            android:letterSpacing="0.01"
+                            android:maxLines="1"
+                            android:text="Wi-Fi"
+                            android:textColor="@color/selector_spatial_tile_title"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/sidebar_sub_wifi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:duplicateParentState="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+                            android:text="Terhubung"
+                            android:textColor="@color/selector_spatial_tile_subtitle"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sidebar_tile_bluetooth"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/selector_spatial_tile_bg"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="10dp"
+                    android:nextFocusUp="@id/sidebar_tile_sound"
+                    android:nextFocusLeft="@id/sidebar_tile_wifi"
+                    android:nextFocusDown="@id/sidebar_tile_bluetooth">
+
+                    <ImageView
+                        android:id="@+id/sidebar_icon_bluetooth"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:duplicateParentState="true"
+                        android:src="@drawable/ic_qs_bluetooth"
+                        android:tint="@color/selector_spatial_tile_icon" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:duplicateParentState="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/sidebar_title_bluetooth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_medium"
+                            android:includeFontPadding="false"
+                            android:letterSpacing="0.01"
+                            android:maxLines="1"
+                            android:text="Bluetooth"
+                            android:textColor="@color/selector_spatial_tile_title"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/sidebar_sub_bluetooth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:duplicateParentState="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:maxLines="1"
+                            android:text="Aksesoris"
+                            android:textColor="@color/selector_spatial_tile_subtitle"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+</com.zenith.launcher.view.GlobalSidebarRootLayout>

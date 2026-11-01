@@ -1,0 +1,1288 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/root_view"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:background="@color/vian_bg_dark"
+
+    android:clipChildren="false"
+
+    android:clipToPadding="false">
+
+
+
+    <!-- Layer 1: Dynamic Fullscreen Movie Backdrops -->
+
+    <ImageView
+
+        android:id="@+id/backdrop_image_1"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        android:scaleType="centerCrop"
+
+        android:src="@drawable/bg_wallpaper_peaky"
+
+        android:contentDescription="@null" />
+
+
+
+    <ImageView
+
+        android:id="@+id/backdrop_image_2"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        android:scaleType="centerCrop"
+
+        android:alpha="0"
+
+        android:contentDescription="@null" />
+
+
+
+    <!-- Layer 2: Seamless Fullscreen Scrim Gradients -->
+
+    <View
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        android:background="@drawable/bg_movie_scrim_horizontal" />
+
+
+
+    <View
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        android:background="@drawable/bg_movie_scrim_bottom" />
+
+
+
+    <!-- Layer 3: Left Slim Vertical Navigation Sidebar Rail -->
+
+    <LinearLayout
+
+        android:id="@+id/sidebar_rail"
+
+        android:layout_width="68dp"
+
+        android:layout_height="match_parent"
+
+        android:gravity="center_horizontal"
+
+        android:orientation="vertical"
+
+        android:paddingTop="26dp"
+
+        android:paddingBottom="26dp"
+
+        android:elevation="20dp"
+
+        android:clipChildren="false"
+
+        android:clipToPadding="false">
+
+        <!-- Nav Item 1: Home / Beranda -->
+        <LinearLayout
+            android:id="@+id/nav_btn_home"
+            android:layout_width="54dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:nextFocusUp="@id/nav_btn_home"
+            android:nextFocusDown="@id/nav_btn_search"
+            android:nextFocusRight="@id/recycler_favorites"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/nav_icon_home"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:alpha="0.45"
+                android:src="@drawable/ic_nav_home"
+                android:contentDescription="Beranda" />
+
+            <View
+                android:id="@+id/nav_line_home"
+                android:layout_width="16dp"
+                android:layout_height="2.5dp"
+                android:layout_marginTop="5dp"
+                android:alpha="0"
+                android:background="@color/vian_accent_pink" />
+        </LinearLayout>
+
+        <!-- Nav Item 2: Search / Pencarian (Pindahan dari Top Bar) -->
+        <LinearLayout
+            android:id="@+id/nav_btn_search"
+            android:layout_width="54dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:nextFocusUp="@id/nav_btn_home"
+            android:nextFocusDown="@id/nav_btn_settings"
+            android:nextFocusRight="@id/recycler_favorites"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/nav_icon_search"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:alpha="0.45"
+                android:src="@drawable/ic_search"
+                android:contentDescription="Pencarian" />
+
+            <View
+                android:id="@+id/nav_line_search"
+                android:layout_width="16dp"
+                android:layout_height="2.5dp"
+                android:layout_marginTop="5dp"
+                android:alpha="0"
+                android:background="@color/vian_accent_pink" />
+        </LinearLayout>
+
+        <!-- Flexible Spacer -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Nav Item 3: Settings / Pengaturan TV -->
+        <LinearLayout
+            android:id="@+id/nav_btn_settings"
+            android:layout_width="54dp"
+            android:layout_height="50dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:nextFocusUp="@id/nav_btn_search"
+            android:nextFocusDown="@id/nav_btn_settings"
+            android:nextFocusRight="@id/recycler_favorites"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/nav_icon_settings"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:alpha="0.45"
+                android:src="@drawable/ic_settings_gear"
+                android:contentDescription="Pengaturan" />
+
+            <View
+                android:id="@+id/nav_line_settings"
+                android:layout_width="16dp"
+                android:layout_height="2.5dp"
+                android:layout_marginTop="5dp"
+                android:alpha="0"
+                android:background="@color/vian_accent_pink" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Floating Sidebar Tooltip on Hover -->
+    <TextView
+
+        android:id="@+id/sidebar_tooltip"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="34dp"
+
+        android:layout_marginStart="74dp"
+
+        android:layout_marginTop="26dp"
+
+        android:background="@drawable/bg_dialog_glass"
+
+        android:elevation="25dp"
+
+        android:gravity="center_vertical"
+
+        android:paddingStart="14dp"
+
+        android:paddingEnd="14dp"
+
+        android:text="Beranda"
+
+        android:textColor="@color/zenith_text_primary"
+
+        android:textSize="12sp"
+
+        android:textStyle="bold"
+
+        android:fontFamily="@font/poppins"
+
+        android:alpha="0" />
+
+
+
+    <!-- HUD Banner when reordering Favorites in Row 1 -->
+
+    <LinearLayout
+
+        android:id="@+id/reorder_hud"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="top|center_horizontal"
+
+        android:layout_marginTop="24dp"
+
+        android:background="@drawable/bg_reorder_hud"
+
+        android:elevation="35dp"
+
+        android:gravity="center_vertical"
+
+        android:orientation="horizontal"
+
+        android:paddingStart="22dp"
+
+        android:paddingTop="10dp"
+
+        android:paddingEnd="22dp"
+
+        android:paddingBottom="10dp"
+
+        android:visibility="gone">
+
+
+
+        <TextView
+
+            android:id="@+id/reorder_hud_text"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:fontFamily="@font/poppins"
+
+            android:text="Geser: Tekan ◀ Kiri / Kanan ▶  •  Tekan OK untuk selesai"
+
+            android:textColor="#FFFFFF"
+
+            android:textSize="13sp"
+
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+
+    <!-- Layer 4: Main Content Container -->
+
+    <com.zenith.launcher.view.TvNestedScrollView
+
+        android:id="@+id/main_scroll_view"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        android:layout_marginStart="68dp"
+
+        android:fillViewport="true"
+
+        android:scrollbars="none"
+
+        android:clipChildren="false"
+
+        android:clipToPadding="false">
+
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+
+            android:paddingBottom="260dp"
+
+            android:clipChildren="false"
+
+            android:clipToPadding="false">
+
+
+
+            <!-- Top Header Bar -->
+
+            <RelativeLayout
+
+                android:id="@+id/top_bar"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="44dp"
+
+                android:layout_marginTop="20dp"
+
+                android:paddingStart="36dp"
+
+                android:paddingEnd="40dp"
+
+                android:clipChildren="false"
+
+                android:clipToPadding="false">
+
+
+
+                <!-- Left: Digital Clock & Date Layout -->
+
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_alignParentStart="true"
+
+                    android:layout_centerVertical="true"
+
+                    android:orientation="vertical">
+
+
+
+                    <TextView
+
+                        android:id="@+id/clock_time"
+
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+
+                        android:includeFontPadding="false"
+
+                        android:text="10:00 AM"
+
+                        android:textColor="@color/zenith_text_primary"
+
+                        android:textSize="17sp"
+
+                        android:textStyle="bold"
+
+                        android:fontFamily="@font/poppins"
+
+                        android:shadowColor="#90000000"
+
+                        android:shadowDx="0"
+
+                        android:shadowDy="2"
+
+                        android:shadowRadius="6" />
+
+
+
+                    <TextView
+
+                        android:id="@+id/clock_date"
+
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="-2dp"
+
+                        android:includeFontPadding="false"
+
+                        android:text="Kamis, 22 Oktober"
+
+                        android:textColor="#D5D9E0"
+
+                        android:textSize="10.5sp"
+
+                        android:letterSpacing="0.02"
+
+                        android:fontFamily="@font/poppins"
+
+                        android:shadowColor="#90000000"
+
+                        android:shadowDx="0"
+
+                        android:shadowDy="2"
+
+                        android:shadowRadius="4" />
+
+                </LinearLayout>
+
+
+
+                <!-- Top Right: Aesthetic Brand Typography: Vian ❤ Anti -->
+                <LinearLayout
+                    android:id="@+id/brand_title_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_brand_pill"
+                    android:paddingStart="15dp"
+                    android:paddingTop="5.5dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="5.5dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vian"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14.5sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.06"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:shadowColor="#A0000000"
+                        android:shadowDx="0"
+                        android:shadowDy="2"
+                        android:shadowRadius="6" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginEnd="7dp"
+                        android:text="❤"
+                        android:textColor="#FFFF2E63"
+                        android:textSize="13sp"
+                        android:shadowColor="#80FF2E63"
+                        android:shadowDx="0"
+                        android:shadowDy="0"
+                        android:shadowRadius="8" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Anti"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14.5sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.06"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:shadowColor="#A0000000"
+                        android:shadowDx="0"
+                        android:shadowDy="2"
+                        android:shadowRadius="6" />
+                </LinearLayout>
+            </RelativeLayout>
+
+
+
+            <!-- Hero Section: Lowered Gracefully to Anchor Naturally Above Row 1 -->
+
+            <LinearLayout
+
+                android:id="@+id/hero_container"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical"
+
+                android:paddingStart="36dp"
+
+                android:paddingTop="84dp"
+
+                android:paddingEnd="40dp"
+
+                android:paddingBottom="10dp"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+
+
+                <!-- Movie Title -->
+
+                <TextView
+
+                    android:id="@+id/hero_title"
+
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="Peaky Blinders"
+
+                    android:textColor="@color/zenith_text_primary"
+
+                    android:textSize="30sp"
+
+                    android:textStyle="bold"
+
+                    android:letterSpacing="0.02"
+
+                    android:fontFamily="@font/poppins"
+
+                    android:shadowColor="#CC000000"
+
+                    android:shadowDx="0"
+
+                    android:shadowDy="3"
+
+                    android:shadowRadius="10" />
+
+
+
+                <!-- Meta Row: Translucent IMDb Rating Badge & Genres & 4K Quality -->
+
+                <LinearLayout
+
+                    android:id="@+id/hero_meta_row"
+
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="8dp"
+
+                    android:orientation="horizontal"
+
+                    android:gravity="center_vertical">
+
+
+
+                    <!-- Sleek Translucent IMDb Badge -->
+
+                    <LinearLayout
+
+                        android:id="@+id/badge_imdb_container"
+
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="22dp"
+
+                        android:background="@drawable/bg_badge_imdb"
+
+                        android:paddingStart="8dp"
+
+                        android:paddingEnd="9dp"
+
+                        android:gravity="center_vertical"
+
+                        android:orientation="horizontal">
+
+
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
+
+                            android:text="★"
+
+                            android:textColor="#F5C518"
+
+                            android:textSize="11sp"
+
+                            android:layout_marginEnd="4dp" />
+
+
+
+                        <TextView
+
+                            android:id="@+id/badge_rating"
+
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
+
+                            android:text="8.8 IMDb"
+
+                            android:textColor="@color/zenith_text_primary"
+
+                            android:textSize="11sp"
+
+                            android:textStyle="bold"
+
+                            android:fontFamily="@font/poppins" />
+
+                    </LinearLayout>
+
+
+
+                    <!-- Movie Genres -->
+
+                    <TextView
+
+                        android:id="@+id/hero_genres"
+
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginStart="10dp"
+
+                        android:text="Drama, Crime"
+
+                        android:textColor="#D0D3DB"
+
+                        android:textSize="11sp"
+
+                        android:letterSpacing="0.02"
+
+                        android:fontFamily="@font/poppins" />
+
+
+
+                    <!-- Quality Badge (Hidden per user request: no 4K ULTRA HD in meta row) -->
+
+                    <TextView
+
+                        android:id="@+id/badge_quality"
+
+                        android:layout_width="0dp"
+
+                        android:layout_height="0dp"
+
+                        android:visibility="gone" />
+
+
+
+                    <!-- Hidden Holders -->
+
+                    <TextView android:id="@+id/badge_audio" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
+
+                    <TextView android:id="@+id/hero_duration" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
+
+                </LinearLayout>
+
+
+
+                <!-- Short Synopsis -->
+
+                <TextView
+
+                    android:id="@+id/hero_tagline"
+
+                    android:layout_width="540dp"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="8dp"
+
+                    android:ellipsize="end"
+
+                    android:lineSpacingExtra="3dp"
+
+                    android:maxLines="2"
+
+                    android:text="Faced with devastating news in Birmingham, Tommy goes on a quest to discover who it was that placed a curse on his family."
+
+                    android:textColor="#C5C6C7"
+
+                    android:textSize="12sp"
+
+                    android:fontFamily="@font/poppins"
+
+                    android:shadowColor="#CC000000"
+
+                    android:shadowDx="0"
+
+                    android:shadowDy="2"
+
+                    android:shadowRadius="6" />
+
+
+
+                <!-- Hero Action Buttons: [ ▶ Watch now ] and [ ✦ Acak Rekomendasi ] -->
+
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="14dp"
+
+                    android:orientation="horizontal"
+
+                    android:gravity="center_vertical"
+
+                    android:clipChildren="false"
+
+                    android:clipToPadding="false"
+
+                    android:paddingTop="6dp"
+
+                    android:paddingBottom="8dp"
+
+                    android:paddingStart="4dp"
+
+                    android:paddingEnd="12dp">
+
+
+
+                    <!-- Button 1: Watch Now -->
+
+                    <LinearLayout
+
+                        android:id="@+id/btn_watch_now"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_btn_watch_now"
+                        android:elevation="4dp"
+
+                        android:outlineProvider="background"
+
+                        android:clipToOutline="false"
+
+                        android:paddingStart="20dp"
+
+                        android:paddingEnd="22dp"
+
+                        android:focusable="true"
+
+                        android:clickable="true"
+
+                        android:nextFocusLeft="@id/nav_btn_home"
+
+                        android:nextFocusRight="@id/btn_next_movie"
+
+                        android:nextFocusUp="@id/nav_btn_home"
+
+                        android:nextFocusDown="@id/recycler_favorites"
+
+                        android:orientation="horizontal"
+
+                        android:gravity="center_vertical">
+
+
+
+                        <ImageView
+
+                            android:layout_width="12dp"
+
+                            android:layout_height="12dp"
+
+                            android:src="@drawable/ic_play_arrow"
+
+                            android:contentDescription="Play" />
+
+
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginStart="7dp"
+
+                            android:text="Watch now"
+
+                            android:textColor="#111111"
+
+                            android:textSize="12.5sp"
+
+                            android:textStyle="bold"
+
+                            android:fontFamily="@font/poppins" />
+
+                    </LinearLayout>
+
+
+
+                    <!-- Button 2: Acak Rekomendasi -->
+
+                    <LinearLayout
+
+                        android:id="@+id/btn_next_movie"
+
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="40dp"
+
+                        android:layout_marginStart="14dp"
+
+                        android:background="@drawable/bg_btn_secondary"
+
+                        android:elevation="4dp"
+
+                        android:outlineProvider="background"
+
+                        android:clipToOutline="false"
+
+                        android:paddingStart="16dp"
+
+                        android:paddingEnd="18dp"
+
+                        android:focusable="true"
+
+                        android:clickable="true"
+
+                        android:nextFocusLeft="@id/btn_watch_now"
+
+                        android:nextFocusUp="@id/nav_btn_home"
+
+                        android:nextFocusDown="@id/recycler_favorites"
+
+                        android:orientation="horizontal"
+
+                        android:gravity="center_vertical">
+
+
+
+                        <ImageView
+
+                            android:layout_width="12dp"
+
+                            android:layout_height="12dp"
+
+                            android:src="@drawable/ic_refresh"
+
+                            android:contentDescription="Next" />
+
+
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginStart="7dp"
+
+                            android:text="Shuffle"
+
+                            android:textColor="@color/zenith_text_primary"
+
+                            android:textSize="12sp"
+
+                            android:textStyle="bold"
+
+                            android:fontFamily="@font/poppins" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+            <!-- Bottom Row 1: Direct Apps Dock (Shelf Container) -->
+
+            <FrameLayout
+                android:id="@+id/container_favorites_dock"
+                android:layout_width="800dp"
+                android:layout_height="108dp"
+                android:layout_marginTop="66dp"
+                android:layout_marginStart="36dp"
+                android:background="@drawable/bg_favorites_dock"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+
+
+                <com.zenith.launcher.view.TvHorizontalGridView
+
+                    android:id="@+id/recycler_favorites"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="match_parent"
+
+                    android:clipChildren="false"
+
+                    android:clipToPadding="false"
+
+                    android:nextFocusLeft="@id/nav_btn_home"
+
+                    android:nextFocusUp="@id/btn_watch_now"
+
+                    android:nextFocusDown="@id/recycler_recommended"
+
+                    android:orientation="horizontal"
+
+                    android:scrollbars="none" />
+
+            </FrameLayout>
+
+
+
+            <!-- Anchor for scroll reference -->
+
+            <View
+
+                android:id="@+id/anchor_favorit"
+
+                android:layout_width="1dp"
+
+                android:layout_height="1dp" />
+
+
+
+            <!-- Sub-Row 2: Film Pilihan & Trending (Positioned well below screen edge so hidden at landing) -->
+
+            <TextView
+
+                android:id="@+id/label_recommended"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="36dp"
+
+                android:layout_marginTop="64dp"
+
+                android:layout_marginBottom="24dp"
+
+                android:text="FILM PILIHAN &amp; TRENDING"
+
+                android:textColor="@color/zenith_text_secondary"
+
+                android:textSize="11sp"
+
+                android:textStyle="bold"
+
+                android:letterSpacing="0.08"
+
+                android:fontFamily="@font/poppins"
+
+                android:shadowColor="#CC000000"
+
+                android:shadowDx="0"
+
+                android:shadowDy="2"
+
+                android:shadowRadius="4" />
+
+
+
+            <com.zenith.launcher.view.TvHorizontalGridView
+
+                android:id="@+id/recycler_recommended"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="192dp"
+
+                android:clipChildren="false"
+
+                android:clipToPadding="false"
+
+                android:paddingStart="36dp"
+
+                android:paddingTop="12dp"
+
+                android:paddingEnd="36dp"
+
+                android:paddingBottom="12dp"
+
+                android:nextFocusLeft="@id/nav_btn_search"
+
+                android:nextFocusUp="@id/recycler_favorites"
+
+                android:nextFocusDown="@id/card_weather"
+
+                android:orientation="horizontal"
+
+                android:scrollbars="none" />
+
+
+
+            <!-- Sub-Row 3: Cuaca & Kontrol Cepat (Glance Hub Dashboard) -->
+
+            <TextView
+
+                android:id="@+id/label_glance_hub"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="36dp"
+
+                android:layout_marginTop="70dp"
+
+                android:layout_marginBottom="12dp"
+
+                android:text="CUACA &amp; KONTROL CEPAT"
+
+                android:textColor="@color/zenith_text_secondary"
+
+                android:textSize="11sp"
+
+                android:textStyle="bold"
+
+                android:letterSpacing="0.08"
+
+                android:fontFamily="@font/poppins"
+
+                android:shadowColor="#CC000000"
+
+                android:shadowDx="0"
+
+                android:shadowDy="2"
+
+                android:shadowRadius="4" />
+
+
+
+            <LinearLayout
+
+                android:id="@+id/glance_hub_container"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal"
+
+                android:paddingStart="36dp"
+
+                android:paddingEnd="36dp"
+
+                android:clipChildren="false"
+
+                android:clipToPadding="false">
+
+
+
+                <!-- Card 1: Cuaca Real-Time -->
+                <LinearLayout
+                    android:id="@+id/card_weather"
+                    android:layout_width="260dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/selector_card_glance"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:paddingStart="16dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="10dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:nextFocusLeft="@id/nav_btn_settings"
+                    android:nextFocusRight="@id/card_tv_inputs"
+                    android:nextFocusUp="@id/recycler_recommended"
+                    android:nextFocusDown="@id/recycler_all_apps">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_weather_cloud"
+                        android:tint="#FFFFFF"
+                        android:contentDescription="Cuaca" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/weather_temp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="28&#176;C"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/poppins" />
+
+                        <TextView
+                            android:id="@+id/weather_condition"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:text="Cerah Berawan"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11.5sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/poppins" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:text="Jakarta &#8226; Lembap 65%"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:fontFamily="@font/poppins" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Card 2: Sumber Input TV & HDMI -->
+                <LinearLayout
+                    android:id="@+id/card_tv_inputs"
+                    android:layout_width="260dp"
+                    android:layout_height="90dp"
+                    android:layout_marginStart="14dp"
+                    android:background="@drawable/selector_card_glance"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:paddingStart="16dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="10dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:nextFocusLeft="@id/card_weather"
+                    android:nextFocusUp="@id/recycler_recommended"
+                    android:nextFocusDown="@id/recycler_all_apps">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_hdmi_port"
+                        android:tint="#FFFFFF"
+                        android:contentDescription="Input TV" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sumber Input TV"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/poppins" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:text="HDMI 1 &#8226; HDMI 2 &#8226; Siaran TV"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10.5sp"
+                            android:fontFamily="@font/poppins" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:text="Pilih Sumber &#10148;"
+                            android:textColor="#FFFFFF"
+                            android:textSize="9.5sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/poppins" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+            <!-- Sub-Row 4: Semua Aplikasi -->
+
+            <TextView
+
+                android:id="@+id/anchor_all_apps"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="36dp"
+
+                android:layout_marginTop="70dp"
+
+                android:layout_marginBottom="18dp"
+
+                android:text="SEMUA APLIKASI"
+
+                android:textColor="@color/zenith_text_secondary"
+
+                android:textSize="11sp"
+
+                android:textStyle="bold"
+
+                android:letterSpacing="0.08"
+
+                android:fontFamily="@font/poppins"
+
+                android:shadowColor="#CC000000"
+
+                android:shadowDx="0"
+
+                android:shadowDy="2"
+
+                android:shadowRadius="4" />
+
+
+
+            <FrameLayout
+                android:id="@+id/container_all_apps_dock"
+                android:layout_width="800dp"
+                android:layout_height="108dp"
+                android:layout_marginStart="36dp"
+                android:background="@drawable/bg_favorites_dock"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+                <com.zenith.launcher.view.TvHorizontalGridView
+                    android:id="@+id/recycler_all_apps"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:nextFocusLeft="@id/nav_btn_settings"
+                    android:nextFocusUp="@id/card_weather"
+                    android:orientation="horizontal"
+                    android:scrollbars="none" />
+
+            </FrameLayout>
+
+
+
+            <!-- Bottom Spacer so Row 4 can cleanly center in the viewport -->
+
+            <View
+
+                android:layout_width="match_parent"
+
+                android:layout_height="240dp" />
+
+
+
+        </LinearLayout>
+
+    </com.zenith.launcher.view.TvNestedScrollView>
+
+
+
+</FrameLayout>
+
