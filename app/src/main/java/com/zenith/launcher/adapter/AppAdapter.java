@@ -118,11 +118,10 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
                 // If clicked while reordering or right after dialog dismissal, ignore standard app launch!
                 return;
             }
-            Intent intent = context.getPackageManager().getLaunchIntentForPackage(item.getPackageName());
-            if (intent != null) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                context.startActivity(intent);
-            }
+            v.animate().scaleX(0.96f).scaleY(0.96f).setDuration(70L).withEndAction(() -> {
+                v.animate().scaleX(1.08f).scaleY(1.08f).setDuration(120L).start();
+            }).start();
+            com.zenith.launcher.util.TvUtils.launchApp(context, item);
         });
 
         holder.cardRoot.setOnLongClickListener(v -> {

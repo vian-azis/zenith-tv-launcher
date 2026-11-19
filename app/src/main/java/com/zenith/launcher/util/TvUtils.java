@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.provider.Settings;
+import android.widget.Toast;
 
 import com.zenith.launcher.model.AppItem;
 import com.zenith.launcher.model.AppActionCapabilities;
@@ -489,9 +491,55 @@ public class TvUtils {
         }
     }
 
+    public static boolean launchApp(Context context, AppItem app) {
+        if (context == null || app == null) {
+            return false;
+        }
+
+        String pkg = app.getPackageName();
+        String act = app.getActivityName();
+
+        // 1. Direct explicit ComponentName launch if activityName is known
+        if (pkg != null && !pkg.isEmpty() && act != null && !act.isEmpty()) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER);
+                intent.setComponent(new ComponentName(pkg, act));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                context.startActivity(intent);
+                return true;
+            } catch (Exception ignored) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.setComponent(new ComponentName(pkg, act));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    context.startActivity(intent);
+                    return true;
+                } catch (Exception ignored2) {
+                }
+            }
+        }
+
+        // 2. Fallback to comprehensive package launch
+        boolean launched = launchPackage(context, pkg);
+        if (!launched && app.getLabel() != null) {
+            try {
+                Toast.makeText(context, "Tidak dapat membuka " + app.getLabel(), Toast.LENGTH_SHORT).show();
+            } catch (Exception ignored) {
+            }
+        }
+        return launched;
+    }
+
     public static boolean launchPackage(Context context, String pkg) {
+        if (context == null || pkg == null || pkg.isEmpty()) {
+            return false;
+        }
+        PackageManager pm = context.getPackageManager();
+
+        // Tier 1: Leanback launch intent (Official Android TV / Google TV standard for Prime Video, Netflix, etc.)
         try {
-            Intent intent = context.getPackageManager().getLaunchIntentForPackage(pkg);
+            Intent intent = pm.getLeanbackLaunchIntentForPackage(pkg);
             if (intent != null) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                 context.startActivity(intent);
@@ -499,6 +547,93 @@ public class TvUtils {
             }
         } catch (Exception ignored) {
         }
+
+        // Tier 2: Standard launch intent (Mobile / Sideloaded apps)
+        try {
+            Intent intent = pm.getLaunchIntentForPackage(pkg);
+            if (intent != null) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                context.startActivity(intent);
+                return true;
+            }
+        } catch (Exception ignored) {
+        }
+
+        // Tier 3: Query Intent Activities for CATEGORY_LEANBACK_LAUNCHER
+        try {
+            Intent query = new Intent(Intent.ACTION_MAIN);
+            query.addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER);
+            query.setPackage(pkg);
+            List<ResolveInfo> resolves = pm.queryIntentActivities(query, 0);
+            if (resolves != null && !resolves.isEmpty()) {
+                ActivityInfo ai = resolves.get(0).activityInfo;
+                if (ai != null) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER);
+                    intent.setComponent(new ComponentName(ai.packageName, ai.name));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    context.startActivity(intent);
+                    return true;
+                }
+            }
+        } catch (Exception ignored) {
+        }
+
+        // Tier 4: Query Intent Activities for CATEGORY_LAUNCHER
+        try {
+            Intent query = new Intent(Intent.ACTION_MAIN);
+            query.addCategory(Intent.CATEGORY_LAUNCHER);
+            query.setPackage(pkg);
+            List<ResolveInfo> resolves = pm.queryIntentActivities(query, 0);
+            if (resolves != null && !resolves.isEmpty()) {
+                ActivityInfo ai = resolves.get(0).activityInfo;
+                if (ai != null) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                    intent.setComponent(new ComponentName(ai.packageName, ai.name));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    context.startActivity(intent);
+                    return true;
+                }
+            }
+        } catch (Exception ignored) {
+        }
+
+        // Tier 5: Query any exported activity in the package with ACTION_MAIN
+        try {
+            Intent query = new Intent(Intent.ACTION_MAIN);
+            query.setPackage(pkg);
+            List<ResolveInfo> resolves = pm.queryIntentActivities(query, 0);
+            if (resolves != null && !resolves.isEmpty()) {
+                ActivityInfo ai = resolves.get(0).activityInfo;
+                if (ai != null) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.setComponent(new ComponentName(ai.packageName, ai.name));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    context.startActivity(intent);
+                    return true;
+                }
+            }
+        } catch (Exception ignored) {
+        }
+
+        // Tier 6: PackageInfo inspection for first exported Activity
+        try {
+            PackageInfo pi = pm.getPackageInfo(pkg, PackageManager.GET_ACTIVITIES);
+            if (pi != null && pi.activities != null) {
+                for (ActivityInfo ai : pi.activities) {
+                    if (ai != null && ai.exported) {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.setComponent(new ComponentName(pkg, ai.name));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                        context.startActivity(intent);
+                        return true;
+                    }
+                }
+            }
+        } catch (Exception ignored) {
+        }
+
         return false;
     }
 }

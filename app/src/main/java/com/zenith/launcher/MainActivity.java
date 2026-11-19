@@ -855,11 +855,7 @@ ChannelAdapter.OnChannelFocusListener {
             btnOpen.setVisibility(0);
             btnOpen.setOnClickListener(v -> {
                 dialog.dismiss();
-                Intent intent = this.getPackageManager().getLaunchIntentForPackage(app.getPackageName());
-                if (intent != null) {
-                    intent.addFlags(0x10200000);
-                    this.startActivity(intent);
-                }
+                TvUtils.launchApp((Context)this, app);
             });
         } else {
             btnOpen.setVisibility(8);
